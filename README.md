@@ -11,4 +11,4 @@ Advent of Code is the place where you can practise your coding skills. There wil
 - [2016](https://adventofcode.com/2016)
 - [2015](https://adventofcode.com/2015)
 
-*Days 1 to 6 and day 10 solution is unavailable because I forgot to save the code :P
+*Days 1 to 7 and day 10 solution is unavailable
