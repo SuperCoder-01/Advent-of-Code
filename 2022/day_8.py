@@ -1,5 +1,8 @@
 # https://adventofcode.com/2022/day/8
+from functools import reduce
+
 tree_map: list[list[int]] = [[int(tree) for tree in line if tree != '\n'] for line in open("./2022/input.txt")]
+scenic_scores: list[int] = []
 TREE_MAP_LEN: int = len(tree_map)
 INVI_TREE_MAP_LEN: int = len(tree_map[0])
 trees_visible: int = 0
@@ -31,6 +34,40 @@ def get_visibility(row: int, col: int) -> dict[str, bool]:
 
     return visibility
 
+def get_scenic_score(row: int, col: int) -> int:
+    count: int = 0
+    tree: int = tree_map[row][col] # Get tree
+
+    # Check top
+    for i in range(row - 1, -1, -1):
+        count += 1
+        if tree_map[i][col] >= tree:
+            break
+    scores: list[int] = [count]
+    count = 0
+    # Check bottom
+    for i in range(row + 1, TREE_MAP_LEN):
+        count += 1
+        if tree_map[i][col] >= tree:
+            break
+    scores.append(count)
+    count = 0
+    # Check left
+    for i in range(col - 1, -1, -1):
+        count += 1
+        if tree_map[row][i] >= tree:
+            break
+    scores.append(count)
+    count = 0
+    # Check right
+    for i in range(col + 1, INVI_TREE_MAP_LEN):
+        count += 1
+        if tree_map[row][i] >= tree:
+            break
+    scores.append(count)
+
+    return reduce(lambda a, b: a * b, scores)
+
 # PART 1
 for x, _ in enumerate(tree_map):
     if x in [0, TREE_MAP_LEN - 1]:
@@ -44,4 +81,9 @@ for x, _ in enumerate(tree_map):
 print("Part 1: ", trees_visible + 392)
 
 # PART 2
-print("Part 2: ", "[ANSWER]")
+for x, _ in enumerate(tree_map):
+    for y, _ in enumerate(tree_map[x]):
+        scenic_scores.append(get_scenic_score(x, y))
+        # print(get_scenic_score(x, y))
+
+print("Part 2: ", max(scenic_scores))
